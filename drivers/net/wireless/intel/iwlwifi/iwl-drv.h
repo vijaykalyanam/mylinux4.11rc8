@@ -65,7 +65,7 @@
 #ifndef __iwl_drv_h__
 #define __iwl_drv_h__
 #include <linux/export.h>
-
+#define VIJAY_WIFI_INTEL
 /* for all modules */
 #define DRV_NAME        "iwlwifi"
 #define DRV_COPYRIGHT	"Copyright(c) 2003- 2015 Intel Corporation"
