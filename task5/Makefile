@@ -1,5 +1,6 @@
-obj-m := usbcall.o
-usbcall-objs := task5.o
+obj-m := usbcall2.o
+#usbcall-objs := task5_submission1.o
+usbcall2-objs := task5.o
 
 ifeq ($(KERNEL_SRC_PATH),)
 KERNEL_SRC_PATH = /lib/modules/$(shell uname -r)/build
