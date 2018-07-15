@@ -1,0 +1,36 @@
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.059840] BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.059860] PGD 80000001e6544067 P4D 80000001e6544067 PUD 205c42067 PMD 0 
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.059886] Oops: 0000 [#1] SMP PTI
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.059895] Modules linked in: task_misc(OE) rfcomm ctr ccm bnep snd_soc_skl snd_soc_skl_ipc snd_soc_sst_ipc arc4 snd_soc_sst_dsp iwlmvm snd_hda_ext_core snd_soc_core intel_rapl snd_compress x86_pkg_temp_thermal intel_powerclamp snd_soc_acpi coretemp snd_hda_codec_hdmi snd_hda_codec_generic kvm_intel mac80211 snd_hda_intel kvm snd_hda_codec irqbypass snd_hda_core snd_pcm btusb snd_hwdep btrtl btbcm btintel crct10dif_pclmul snd_seq_midi crc32_pclmul snd_seq_midi_event ghash_clmulni_intel iwlwifi bluetooth snd_rawmidi aesni_intel snd_seq aes_x86_64 crypto_simd snd_timer snd_seq_device cryptd input_leds snd glue_helper ideapad_laptop ecdh_generic joydev cfg80211 soundcore mei_me sparse_keymap serio_raw mei shpchp wmi mac_hid video acpi_pad parport_pc ppdev lp parport autofs4 psmouse r8169 ahci libahci
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060060]  mii [last unloaded: task_misc]
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060077] CPU: 3 PID: 7368 Comm: cat Tainted: G           OE     4.17.0-task5-00001-g662698d-dirty #3
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060083] Hardware name: LENOVO 80LG/Lenovo B41-80, BIOS D7CN28WW(V3.01) 01/27/2016
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060099] RIP: 0010:task6_read_id+0x58/0x75 [task_misc]
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060107] RSP: 0018:ffffb0b380cbbe48 EFLAGS: 00010286
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060116] RAX: 0000000000000005 RBX: ffffb0b380cbbf08 RCX: 0000000000000006
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060123] RDX: 0000000000000000 RSI: 0000000000000096 RDI: ffff9fded25966d0
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060129] RBP: ffffb0b380cbbf08 R08: 0000000000000001 R09: 00000000000003d5
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060136] R10: 0000000000000000 R11: 00000000000003d5 R12: 00007fbd7ab35000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060142] R13: ffffb0b380cbbf08 R14: 0000000000000000 R15: 0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060151] FS:  00007fbd7ab57700(0000) GS:ffff9fded2580000(0000) knlGS:0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060159] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060166] CR2: 0000000000000000 CR3: 0000000238550001 CR4: 00000000003606e0
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060172] Call Trace:
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060194]  __vfs_read+0x36/0x170
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060208]  vfs_read+0x8e/0x130
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060220]  ksys_read+0x52/0xc0
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060235]  do_syscall_64+0x55/0x100
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060251]  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060260] RIP: 0033:0x7fbd7a67e260
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060267] RSP: 002b:00007ffd95e8b6f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060277] RAX: ffffffffffffffda RBX: 0000000000020000 RCX: 00007fbd7a67e260
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060283] RDX: 0000000000020000 RSI: 00007fbd7ab35000 RDI: 0000000000000003
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060290] RBP: 0000000000020000 R08: ffffffffffffffff R09: 0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060296] R10: 000000000000037b R11: 0000000000000246 R12: 00007fbd7ab35000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060302] R13: 0000000000000003 R14: 0000000000000000 R15: 0000000000020000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060311] Code: c0 f2 ff ff ff 5b c3 48 c7 c0 f2 ff ff ff c3 48 83 03 01 48 c7 c7 35 20 6e c0 e8 52 07 a0 d5 48 c7 c7 42 20 6e c0 e8 46 07 a0 d5 <8b> 34 25 00 00 00 00 48 c7 c7 4b 20 6e c0 e8 33 07 a0 d5 b8 0d 
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060402] RIP: task6_read_id+0x58/0x75 [task_misc] RSP: ffffb0b380cbbe48
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060403] CR2: 0000000000000000
+Jun  4 12:55:36 vkalyanam-Lenovo-B41-80 kernel: [ 1577.060406] ---[ end trace f78d31d3f616228c ]---
+
+

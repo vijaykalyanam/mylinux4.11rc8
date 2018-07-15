@@ -1,0 +1,191 @@
+Scenario: I have inserted a Module which creates a MISC char device.
+          But, forgot to deregister it. Manually removed /dev/eudyptula and
+               reloaded module. This is the failure happened.
+
+root@vkalyanamDevBox:~/linux/task6# ls
+Makefile  modules.order  Module.symvers  task6.c  task6.o  task_misc.ko  task_misc.mod.c  task_misc.mod.o  task_misc.o
+root@vkalyanamDevBox:~/linux/task6# rmmod task_misc; insmod ./task_misc.ko
+rmmod: ERROR: Module task_misc is not currently loaded
+insmod: ERROR: could not insert module ./task_misc.ko: File exists
+
+
+
+
+[678312.589453] task_misc: loading out-of-tree module taints kernel.
+[678312.589540] task_misc: module verification failed: signature and/or required key missing - tainting kernel
+[678312.590535] Misc Char driver with minor number [55] registered
+[678505.500883] Misc Char driver with minor number unloaded
+[678921.118786] ------------[ cut here ]------------
+[678921.118792] sysfs: cannot create duplicate filename '/devices/virtual/misc/eudyptula'
+[678921.118850] WARNING: CPU: 3 PID: 25686 at /home/kernel/COD/linux/fs/sysfs/dir.c:31 sysfs_warn_dup+0x46/0x60
+[678921.118852] Modules linked in: task_misc(OE+) ftdi_sio usbserial bnep snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic intel_rapl x86_pkg_temp_thermal intel_powerclamp snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep coretemp snd_pcm snd_seq_midi snd_seq_midi_event input_leds snd_rawmidi kvm_intel snd_seq snd_seq_device dell_wmi dell_wmi_descriptor kvm snd_timer hci_uart serdev btqca btintel bluetooth irqbypass dell_smbios ecdh_generic snd sparse_keymap crc32_pclmul wmi_bmof dcdbas pcbc soundcore aesni_intel aes_i586 crypto_simd cryptd intel_cstate intel_rapl_perf serio_raw intel_lpss_acpi intel_lpss mei_me mei intel_pch_thermal shpchp mac_hid acpi_als kfifo_buf industrialio acpi_pad parport_pc ppdev lp parport autofs4 hid_generic usbhid i915 i2c_algo_bit drm_kms_helper syscopyarea
+[678921.118953]  sysfillrect sysimgblt psmouse r8169 fb_sys_fops ahci drm mii libahci wmi i2c_hid pinctrl_sunrisepoint hid video pinctrl_intel [last unloaded: task_misc]
+[678921.118982] CPU: 3 PID: 25686 Comm: insmod Tainted: G        W  OE    4.15.0-041500rc1-lowlatency #201711262030
+[678921.118995] Hardware name: Dell Inc. OptiPlex 3040/0TK4W4, BIOS 1.3.5 01/26/2016
+[678921.119000] task: f1020b80 task.stack: f4f08000
+[678921.119010] EIP: sysfs_warn_dup+0x46/0x60
+[678921.119013] EFLAGS: 00010286 CPU: 3
+[678921.119016] EAX: 00000049 EBX: f3f1b000 ECX: f5de78f0 EDX: 00000007
+[678921.119018] ESI: f121d660 EDI: f1cadc80 EBP: f4f09cec ESP: f4f09cd4
+[678921.119020]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+[678921.119023] CR0: 80050033 CR2: b7ec6821 CR3: 2daaf220 CR4: 003406f0
+[678921.119026] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[678921.119028] DR6: fffe0ff0 DR7: 00000400
+[678921.119030] Call Trace:
+[678921.119045]  sysfs_create_dir_ns+0x68/0x80
+[678921.119062]  kobject_add_internal+0x89/0x270
+[678921.119068]  kobject_add+0x32/0x70
+[678921.119080]  device_add+0xeb/0x5e0
+[678921.119091]  ? kfree_const+0x1b/0x30
+[678921.119097]  device_create_groups_vargs+0xc7/0xd0
+[678921.119104]  device_create_with_groups+0x23/0x30
+[678921.119115]  misc_register+0x125/0x160
+[678921.119121]  ? 0xf8a27000
+[678921.119129]  task1_init+0x13/0x1000 [task_misc]
+[678921.119143]  do_one_initcall+0x46/0x170
+[678921.119163]  ? vunmap_page_range+0x13e/0x280
+[678921.119170]  ? kvfree+0x45/0x50
+[678921.119184]  ? do_init_module+0x21/0x1e4
+[678921.119190]  ? do_init_module+0x21/0x1e4
+[678921.119197]  do_init_module+0x50/0x1e4
+[678921.119203]  load_module+0x1556/0x1ae0
+[678921.119214]  SyS_finit_module+0x8a/0xe0
+[678921.119223]  do_fast_syscall_32+0x71/0x1d0
+[678921.119232]  entry_SYSENTER_32+0x4e/0x7c
+[678921.119236] EIP: 0xb7f59cf9
+[678921.119238] EFLAGS: 00000296 CPU: 3
+[678921.119240] EAX: ffffffda EBX: 00000003 ECX: 0048c518 EDX: 00000000
+[678921.119242] ESI: 00c19df0 EDI: 00c19d28 EBP: 0048add8 ESP: bfc53adc
+[678921.119245]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
+[678921.119248] Code: 80 40 01 e8 3d 31 f6 ff 85 c0 89 c3 74 11 68 00 10 00 00 89 c1 31 d2 89 f8 e8 b7 cb ff ff 58 56 53 68 7c 6b b0 d4 e8 1a 46 dd ff <0f> ff 89 d8 e8 11 1c f6 ff 83 c4 0c 8d 65 f4 5b 5e 5f 5d c3 8d
+[678921.119324] ---[ end trace 52e744ecd12315c8 ]---
+[678921.119328] ------------[ cut here ]------------
+[678921.119331] kobject_add_internal failed for eudyptula with -EEXIST, don't try to register things with the same name in the same directory.
+[678921.119380] WARNING: CPU: 3 PID: 25686 at /home/kernel/COD/linux/lib/kobject.c:240 kobject_add_internal+0x229/0x270
+[678921.119382] Modules linked in: task_misc(OE+) ftdi_sio usbserial bnep snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic intel_rapl x86_pkg_temp_thermal intel_powerclamp snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep coretemp snd_pcm snd_seq_midi snd_seq_midi_event input_leds snd_rawmidi kvm_intel snd_seq snd_seq_device dell_wmi dell_wmi_descriptor kvm snd_timer hci_uart serdev btqca btintel bluetooth irqbypass dell_smbios ecdh_generic snd sparse_keymap crc32_pclmul wmi_bmof dcdbas pcbc soundcore aesni_intel aes_i586 crypto_simd cryptd intel_cstate intel_rapl_perf serio_raw intel_lpss_acpi intel_lpss mei_me mei intel_pch_thermal shpchp mac_hid acpi_als kfifo_buf industrialio acpi_pad parport_pc ppdev lp parport autofs4 hid_generic usbhid i915 i2c_algo_bit drm_kms_helper syscopyarea
+[678921.119466]  sysfillrect sysimgblt psmouse r8169 fb_sys_fops ahci drm mii libahci wmi i2c_hid pinctrl_sunrisepoint hid video pinctrl_intel [last unloaded: task_misc]
+[678921.119490] CPU: 3 PID: 25686 Comm: insmod Tainted: G        W  OE    4.15.0-041500rc1-lowlatency #201711262030
+[678921.119494] Hardware name: Dell Inc. OptiPlex 3040/0TK4W4, BIOS 1.3.5 01/26/2016
+[678921.119497] task: f1020b80 task.stack: f4f08000
+[678921.119504] EIP: kobject_add_internal+0x229/0x270
+[678921.119505] EFLAGS: 00010292 CPU: 3
+[678921.119508] EAX: 0000007e EBX: f513b408 ECX: f5de78f0 EDX: 00000007
+[678921.119511] ESI: f1c838c0 EDI: ffffffef EBP: f4f09d1c ESP: f4f09cfc
+[678921.119513]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+[678921.119516] CR0: 80050033 CR2: b7ec6821 CR3: 2daaf220 CR4: 003406f0
+[678921.119518] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[678921.119519] DR6: fffe0ff0 DR7: 00000400
+[678921.119521] Call Trace:
+[678921.119529]  kobject_add+0x32/0x70
+[678921.119535]  device_add+0xeb/0x5e0
+[678921.119544]  ? kfree_const+0x1b/0x30
+[678921.119551]  device_create_groups_vargs+0xc7/0xd0
+[678921.119558]  device_create_with_groups+0x23/0x30
+[678921.119571]  misc_register+0x125/0x160
+[678921.119577]  ? 0xf8a27000
+[678921.119584]  task1_init+0x13/0x1000 [task_misc]
+[678921.119591]  do_one_initcall+0x46/0x170
+[678921.119599]  ? vunmap_page_range+0x13e/0x280
+[678921.119606]  ? kvfree+0x45/0x50
+[678921.119613]  ? do_init_module+0x21/0x1e4
+[678921.119620]  ? do_init_module+0x21/0x1e4
+[678921.119627]  do_init_module+0x50/0x1e4
+[678921.119633]  load_module+0x1556/0x1ae0
+[678921.119646]  SyS_finit_module+0x8a/0xe0
+[678921.119656]  do_fast_syscall_32+0x71/0x1d0
+[678921.119669]  entry_SYSENTER_32+0x4e/0x7c
+[678921.119673] EIP: 0xb7f59cf9
+[678921.119674] EFLAGS: 00000296 CPU: 3
+[678921.119677] EAX: ffffffda EBX: 00000003 ECX: 0048c518 EDX: 00000000
+[678921.119679] ESI: 00c19df0 EDI: 00c19d28 EBP: 0048add8 ESP: bfc53adc
+[678921.119681]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
+[678921.119685] Code: c6 8b 43 10 85 c0 0f 84 67 fe ff ff 83 c0 0c e9 30 fe ff ff 8d b6 00 00 00 00 ff 33 68 b8 94 94 d4 68 5c f8 b9 d4 e8 07 d2 7f ff <0f> ff 83 c4 0c e9 a1 fe ff ff 0f ff eb a8 0f ff eb 9d 90 8d 74
+[678921.119766] ---[ end trace 52e744ecd12315c9 ]---
+[678921.124854] Misc Char driver registerion failed with error [-17]
+[678951.132557] ------------[ cut here ]------------
+[678951.132560] sysfs: cannot create duplicate filename '/devices/virtual/misc/eudyptula'
+[678951.132580] WARNING: CPU: 2 PID: 25700 at /home/kernel/COD/linux/fs/sysfs/dir.c:31 sysfs_warn_dup+0x46/0x60
+[678951.132582] Modules linked in: task_misc(OE+) ftdi_sio usbserial bnep snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic intel_rapl x86_pkg_temp_thermal intel_powerclamp snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep coretemp snd_pcm snd_seq_midi snd_seq_midi_event input_leds snd_rawmidi kvm_intel snd_seq snd_seq_device dell_wmi dell_wmi_descriptor kvm snd_timer hci_uart serdev btqca btintel bluetooth irqbypass dell_smbios ecdh_generic snd sparse_keymap crc32_pclmul wmi_bmof dcdbas pcbc soundcore aesni_intel aes_i586 crypto_simd cryptd intel_cstate intel_rapl_perf serio_raw intel_lpss_acpi intel_lpss mei_me mei intel_pch_thermal shpchp mac_hid acpi_als kfifo_buf industrialio acpi_pad parport_pc ppdev lp parport autofs4 hid_generic usbhid i915 i2c_algo_bit drm_kms_helper syscopyarea
+[678951.132656]  sysfillrect sysimgblt psmouse r8169 fb_sys_fops ahci drm mii libahci wmi i2c_hid pinctrl_sunrisepoint hid video pinctrl_intel [last unloaded: task_misc]
+[678951.132678] CPU: 2 PID: 25700 Comm: insmod Tainted: G        W  OE    4.15.0-041500rc1-lowlatency #201711262030
+[678951.132684] Hardware name: Dell Inc. OptiPlex 3040/0TK4W4, BIOS 1.3.5 01/26/2016
+[678951.132689] task: f4d6f300 task.stack: e94de000
+[678951.132696] EIP: sysfs_warn_dup+0x46/0x60
+[678951.132698] EFLAGS: 00010286 CPU: 2
+[678951.132701] EAX: 00000049 EBX: f1ee7000 ECX: f5dd08f0 EDX: 00000007
+[678951.132703] ESI: f1261b50 EDI: f1cadc80 EBP: e94dfcec ESP: e94dfcd4
+[678951.132706]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+[678951.132709] CR0: 80050033 CR2: 0148f364 CR3: 317d8c20 CR4: 003406f0
+[678951.132712] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[678951.132713] DR6: fffe0ff0 DR7: 00000400
+[678951.132715] Call Trace:
+[678951.132726]  sysfs_create_dir_ns+0x68/0x80
+[678951.132734]  kobject_add_internal+0x89/0x270
+[678951.132740]  kobject_add+0x32/0x70
+[678951.132747]  device_add+0xeb/0x5e0
+[678951.132754]  ? kfree_const+0x1b/0x30
+[678951.132760]  device_create_groups_vargs+0xc7/0xd0
+[678951.132766]  device_create_with_groups+0x23/0x30
+[678951.132774]  misc_register+0x125/0x160
+[678951.132780]  ? 0xf88e9000
+[678951.132786]  task1_init+0x13/0x1000 [task_misc]
+[678951.132792]  do_one_initcall+0x46/0x170
+[678951.132800]  ? vunmap_page_range+0x13e/0x280
+[678951.132806]  ? kvfree+0x45/0x50
+[678951.132813]  ? do_init_module+0x21/0x1e4
+[678951.132818]  ? do_init_module+0x21/0x1e4
+[678951.132825]  do_init_module+0x50/0x1e4
+[678951.132831]  load_module+0x1556/0x1ae0
+[678951.132842]  SyS_finit_module+0x8a/0xe0
+[678951.132850]  do_fast_syscall_32+0x71/0x1d0
+[678951.132858]  entry_SYSENTER_32+0x4e/0x7c
+[678951.132861] EIP: 0xb7ee1cf9
+[678951.132863] EFLAGS: 00000292 CPU: 2
+[678951.132865] EAX: ffffffda EBX: 00000003 ECX: 0046b518 EDX: 00000000
+[678951.132868] ESI: 0148edf0 EDI: 0148ed28 EBP: 00469dd8 ESP: bfd1a5cc
+[678951.132870]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
+[678951.132874] Code: 80 40 01 e8 3d 31 f6 ff 85 c0 89 c3 74 11 68 00 10 00 00 89 c1 31 d2 89 f8 e8 b7 cb ff ff 58 56 53 68 7c 6b b0 d4 e8 1a 46 dd ff <0f> ff 89 d8 e8 11 1c f6 ff 83 c4 0c 8d 65 f4 5b 5e 5f 5d c3 8d
+[678951.132947] ---[ end trace 52e744ecd12315ca ]---
+[678951.132950] ------------[ cut here ]------------
+[678951.132952] kobject_add_internal failed for eudyptula with -EEXIST, don't try to register things with the same name in the same directory.
+[678951.132970] WARNING: CPU: 2 PID: 25700 at /home/kernel/COD/linux/lib/kobject.c:240 kobject_add_internal+0x229/0x270
+[678951.132971] Modules linked in: task_misc(OE+) ftdi_sio usbserial bnep snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic intel_rapl x86_pkg_temp_thermal intel_powerclamp snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep coretemp snd_pcm snd_seq_midi snd_seq_midi_event input_leds snd_rawmidi kvm_intel snd_seq snd_seq_device dell_wmi dell_wmi_descriptor kvm snd_timer hci_uart serdev btqca btintel bluetooth irqbypass dell_smbios ecdh_generic snd sparse_keymap crc32_pclmul wmi_bmof dcdbas pcbc soundcore aesni_intel aes_i586 crypto_simd cryptd intel_cstate intel_rapl_perf serio_raw intel_lpss_acpi intel_lpss mei_me mei intel_pch_thermal shpchp mac_hid acpi_als kfifo_buf industrialio acpi_pad parport_pc ppdev lp parport autofs4 hid_generic usbhid i915 i2c_algo_bit drm_kms_helper syscopyarea
+[678951.133042]  sysfillrect sysimgblt psmouse r8169 fb_sys_fops ahci drm mii libahci wmi i2c_hid pinctrl_sunrisepoint hid video pinctrl_intel [last unloaded: task_misc]
+[678951.133061] CPU: 2 PID: 25700 Comm: insmod Tainted: G        W  OE    4.15.0-041500rc1-lowlatency #201711262030
+[678951.133064] Hardware name: Dell Inc. OptiPlex 3040/0TK4W4, BIOS 1.3.5 01/26/2016
+[678951.133068] task: f4d6f300 task.stack: e94de000
+[678951.133073] EIP: kobject_add_internal+0x229/0x270
+[678951.133074] EFLAGS: 00010292 CPU: 2
+[678951.133077] EAX: 0000007e EBX: e9588608 ECX: f5dd08f0 EDX: 00000007
+[678951.133079] ESI: f1c838c0 EDI: ffffffef EBP: e94dfd1c ESP: e94dfcfc
+[678951.133081]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+[678951.133083] CR0: 80050033 CR2: 0148f364 CR3: 317d8c20 CR4: 003406f0
+[678951.133085] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[678951.133087] DR6: fffe0ff0 DR7: 00000400
+[678951.133088] Call Trace:
+[678951.133095]  kobject_add+0x32/0x70
+[678951.133100]  device_add+0xeb/0x5e0
+[678951.133107]  ? kfree_const+0x1b/0x30
+[678951.133112]  device_create_groups_vargs+0xc7/0xd0
+[678951.133118]  device_create_with_groups+0x23/0x30
+[678951.133124]  misc_register+0x125/0x160
+[678951.133129]  ? 0xf88e9000
+[678951.133135]  task1_init+0x13/0x1000 [task_misc]
+[678951.133140]  do_one_initcall+0x46/0x170
+[678951.133147]  ? vunmap_page_range+0x13e/0x280
+[678951.133153]  ? kvfree+0x45/0x50
+[678951.133159]  ? do_init_module+0x21/0x1e4
+[678951.133164]  ? do_init_module+0x21/0x1e4
+[678951.133170]  do_init_module+0x50/0x1e4
+[678951.133176]  load_module+0x1556/0x1ae0
+[678951.133187]  SyS_finit_module+0x8a/0xe0
+[678951.133195]  do_fast_syscall_32+0x71/0x1d0
+[678951.133202]  entry_SYSENTER_32+0x4e/0x7c
+[678951.133205] EIP: 0xb7ee1cf9
+[678951.133207] EFLAGS: 00000292 CPU: 2
+[678951.133209] EAX: ffffffda EBX: 00000003 ECX: 0046b518 EDX: 00000000
+[678951.133211] ESI: 0148edf0 EDI: 0148ed28 EBP: 00469dd8 ESP: bfd1a5cc
+[678951.133214]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
+[678951.133217] Code: c6 8b 43 10 85 c0 0f 84 67 fe ff ff 83 c0 0c e9 30 fe ff ff 8d b6 00 00 00 00 ff 33 68 b8 94 94 d4 68 5c f8 b9 d4 e8 07 d2 7f ff <0f> ff 83 c4 0c e9 a1 fe ff ff 0f ff eb a8 0f ff eb 9d 90 8d 74
+[678951.133291] ---[ end trace 52e744ecd12315cb ]---
+root@vkalyanamDevBox:~/linux/task6# 

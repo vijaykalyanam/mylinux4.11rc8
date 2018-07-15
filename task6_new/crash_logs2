@@ -1,0 +1,53 @@
+Scenario 2: Added deregister function during unload and retried to load module.
+
+root@vkalyanamDevBox:~/linux/task6# lsmod | grep task
+root@vkalyanamDevBox:~/linux/task6# insmod ./task_misc.ko
+Killed
+root@vkalyanamDevBox:~/linux/task6# lsmod | grep task
+task_misc              16384  1
+
+
+[678951.133295] Misc Char driver registerion failed with error [-17]
+[679372.140539] BUG: unable to handle kernel paging request at f8bd7010
+[679372.140560] IP: misc_register+0xa3/0x160
+[679372.140564] *pdpt = 0000000014de8001 *pde = 00000000351c9067 *pte = 0000000000000000 
+[679372.140574] Oops: 0002 [#1] PREEMPT SMP
+[679372.140578] Modules linked in: task_misc(OE+) ftdi_sio usbserial bnep snd_hda_codec_hdmi snd_hda_codec_realtek snd_hda_codec_generic intel_rapl x86_pkg_temp_thermal intel_powerclamp snd_hda_intel snd_hda_codec snd_hda_core snd_hwdep coretemp snd_pcm snd_seq_midi snd_seq_midi_event input_leds snd_rawmidi kvm_intel snd_seq snd_seq_device dell_wmi dell_wmi_descriptor kvm snd_timer hci_uart serdev btqca btintel bluetooth irqbypass dell_smbios ecdh_generic snd sparse_keymap crc32_pclmul wmi_bmof dcdbas pcbc soundcore aesni_intel aes_i586 crypto_simd cryptd intel_cstate intel_rapl_perf serio_raw intel_lpss_acpi intel_lpss mei_me mei intel_pch_thermal shpchp mac_hid acpi_als kfifo_buf industrialio acpi_pad parport_pc ppdev lp parport autofs4 hid_generic usbhid i915 i2c_algo_bit drm_kms_helper syscopyarea
+[679372.140662]  sysfillrect sysimgblt psmouse r8169 fb_sys_fops ahci drm mii libahci wmi i2c_hid pinctrl_sunrisepoint hid video pinctrl_intel [last unloaded: task_misc]
+[679372.140686] CPU: 3 PID: 26489 Comm: insmod Tainted: G        W  OE    4.15.0-041500rc1-lowlatency #201711262030
+[679372.140690] Hardware name: Dell Inc. OptiPlex 3040/0TK4W4, BIOS 1.3.5 01/26/2016
+[679372.140693] task: f1024500 task.stack: f5bb2000
+[679372.140700] EIP: misc_register+0xa3/0x160
+[679372.140703] EFLAGS: 00010287 CPU: 3
+[679372.140707] EAX: f8bd700c EBX: f8b4a000 ECX: 00000000 EDX: f1cae740
+[679372.140710] ESI: f8b4a00c EDI: 0000003f EBP: f5bb3dcc ESP: f5bb3dc0
+[679372.140714]  DS: 007b ES: 007b FS: 00d8 GS: 00e0 SS: 0068
+[679372.140718] CR0: 80050033 CR2: f8bd7010 CR3: 317d8560 CR4: 003406f0
+[679372.140722] DR0: 00000000 DR1: 00000000 DR2: 00000000 DR3: 00000000
+[679372.140725] DR6: fffe0ff0 DR7: 00000400
+[679372.140727] Call Trace:
+[679372.140735]  ? 0xf88e9000
+[679372.140741]  task1_init+0x13/0x1000 [task_misc]
+[679372.140749]  do_one_initcall+0x46/0x170
+[679372.140757]  ? vunmap_page_range+0x13e/0x280
+[679372.140764]  ? kvfree+0x45/0x50
+[679372.140771]  ? do_init_module+0x21/0x1e4
+[679372.140777]  ? do_init_module+0x21/0x1e4
+[679372.140783]  do_init_module+0x50/0x1e4
+[679372.140789]  load_module+0x1556/0x1ae0
+[679372.140801]  SyS_finit_module+0x8a/0xe0
+[679372.140809]  do_fast_syscall_32+0x71/0x1d0
+[679372.140817]  entry_SYSENTER_32+0x4e/0x7c
+[679372.140821] EIP: 0xb7f12cf9
+[679372.140823] EFLAGS: 00000292 CPU: 3
+[679372.140827] EAX: ffffffda EBX: 00000003 ECX: 00515518 EDX: 00000000
+[679372.140831] ESI: 01d6fdf0 EDI: 01d6fd28 EBP: 00513dd8 ESP: bfd3155c
+[679372.140834]  DS: 007b ES: 007b FS: 0000 GS: 0033 SS: 007b
+[679372.140839] Code: 51 ff 73 14 ff 35 68 c8 e9 d4 e8 49 e0 02 00 83 c4 1c 3d 00 f0 ff ff 89 43 18 0f 87 b3 00 00 00 a1 60 35 c7 d4 89 35 60 35 c7 d4 <89> 70 04 89 43 0c c7 43 10 60 35 c7 d4 31 db b8 4c 35 c7 d4 e8
+[679372.140915] EIP: misc_register+0xa3/0x160 SS:ESP: 0068:f5bb3dc0
+[679372.140918] CR2: 00000000f8bd7010
+[679372.140923] ---[ end trace 52e744ecd12315cc ]---
+root@vkalyanamDevBox:~/linux/task6# 
+
+
+
