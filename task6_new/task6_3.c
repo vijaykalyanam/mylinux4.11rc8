@@ -17,15 +17,15 @@ static ssize_t task6_write_id(struct file *file, char const __user *buf,
 		size_t count, loff_t *ppos);
 
 const struct file_operations task6_fops = {
-        .owner	 = THIS_MODULE,
-        .read    = task6_read_id,
-        .write   = task6_write_id,
+	.owner	 = THIS_MODULE,
+	.read    = task6_read_id,
+	.write   = task6_write_id,
 };
 
 static struct miscdevice task6_dev = {
-        .minor  = MISC_DYNAMIC_MINOR,
-        .name   = "eudyptula",
-        .fops   = &task6_fops,
+	.minor  = MISC_DYNAMIC_MINOR,
+	.name   = "eudyptula",
+	.fops   = &task6_fops,
 };
 
 static ssize_t task6_read_id(struct file *file, char __user *buf,
@@ -53,12 +53,12 @@ static void __exit task1_exit(void)
 	pr_info("Misc Char driver with minor number [%d] unloaded\n",
 			task6_dev.minor);
 	misc_deregister(&task6_dev);
-	return;
 }
 
 static int __init task1_init(void)
 {
 	int ret = -1;
+
 	ret = misc_register(&task6_dev);
 	if (ret == 0)
 		pr_info("Misc Char driver with minor number [%d] registered\n",
