@@ -1,5 +1,5 @@
 obj-m := task_misc.o
-task_misc-objs := task6.o
+task_misc-objs := task6_3.o
 //task_misc-objs := open.o
 //task_misc-objs := semaphore.o
 //task_misc-objs := mutex.o
